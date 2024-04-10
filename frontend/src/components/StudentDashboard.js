@@ -6,8 +6,7 @@ const StudentDashboard = ({ studentDetails }) => {
     name: "",
     id: "",
     cgpa: "",
-
-    remainingBalance: "",
+    remaining_balance: "",
   });
 
   useEffect(() => {
@@ -45,51 +44,114 @@ const StudentDashboard = ({ studentDetails }) => {
   };
 
   return (
-    <div>
-      <h2>Student Dashboard</h2>
+    <div
+      style={{
+        maxWidth: "400px",
+        margin: "auto",
+        padding: "20px",
+        backgroundColor: "#f9f9f9",
+        borderRadius: "10px",
+      }}
+    >
+      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+        Student Dashboard
+      </h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Name:</label>
           <input
             type="text"
             name="name"
             value={formDetails.name}
             onChange={handleChange}
+            style={{
+              marginLeft: "10px",
+              padding: "8px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              width: "100%",
+            }}
           />
         </div>
-        <div>
-          <label>Student ID:</label>
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Student ID:</label>
           <input
             type="text"
             name="id"
             value={formDetails.id}
             onChange={handleChange}
+            style={{
+              marginLeft: "10px",
+              padding: "8px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              width: "100%",
+            }}
           />
         </div>
-        <div>
-          <label>CGPA:</label>
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>CGPA:</label>
           <input
             type="text"
             name="cgpa"
             value={formDetails.cgpa}
             onChange={handleChange}
+            style={{
+              marginLeft: "10px",
+              padding: "8px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              width: "100%",
+            }}
           />
         </div>
-
-        <div>
-          <label>Remaining Balance:</label>
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Remaining Balance:</label>
           <input
             type="text"
             name="remainingBalance"
             value={formDetails.remaining_balance}
             onChange={handleChange}
+            style={{
+              marginLeft: "10px",
+              padding: "8px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              width: "100%",
+            }}
           />
         </div>
-
-        <button type="submit">Submit</button>
-        <button type="button" onClick={handleAvailMeal}>
-          Avail Meal
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button
+            type="submit"
+            style={{
+              backgroundColor: "#4CAF50",
+              color: "white",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              width: "45%",
+            }}
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            onClick={handleAvailMeal}
+            style={{
+              backgroundColor: "#008CBA",
+              color: "white",
+              padding: "10px 20px",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              width: "45%",
+            }}
+          >
+            Avail Meal
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -6,11 +6,12 @@ import LandingPage from "./components/LandingPage";
 import StudentLogin from "./components/StudentLogin";
 import AdminLogin from "./components/AdminLogin";
 import StudentDashboard from "./components/StudentDashboard";
+import AdminDashboard from "./components/AdminDashboard";
 const App = () => {
   return (
     <Router>
-      {/* <StudentDashboard></StudentDashboard> */}
-      <StudentLogin></StudentLogin>
+     {/* <AdminLogin></AdminLogin> */}
+     <StudentLogin></StudentLogin>
     </Router>
   );
 };

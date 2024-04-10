@@ -52,6 +52,19 @@ async function fetchStudentDetails(studentId) {
     throw error;
   }
 }
+async function getAdminDetails(adminName) {
+  try {
+    // Query to fetch admin details from the admin_profile table based on admin ID
+    const [adminDetails] = await pool.query(
+      "SELECT name,admin_id  FROM admin_profile WHERE name = ?",
+      [adminName]
+    );
+    return adminDetails;
+  } catch (error) {
+    console.error("Error fetching admin details:", error);
+    throw error;
+  }
+}
 
 async function getRemainingBalanceForStudents() {
   try {
@@ -222,4 +235,5 @@ export {
   processTransaction,
   saveFeedbackToDatabase,
   fetchStudentDetails,
+  getAdminDetails,
 };

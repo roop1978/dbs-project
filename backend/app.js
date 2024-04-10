@@ -12,6 +12,7 @@ import {
   processTransaction,
   saveFeedbackToDatabase,
   fetchStudentDetails,
+  getAdminDetails,
 } from "./database/database.js";
 
 const app = express();
@@ -211,6 +212,20 @@ app.post("/feedback", async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+app.get("/admin-details/:username", async (req, res) => {
+  const adminName = req.params.username; // Extract admin_name from request parameters
+  try {
+    // Fetch admin details from the database based on admin ID
+    const adminDetails = await getAdminDetails(adminName);
+
+    // Send the admin details in the response
+    res.status(200).json(adminDetails);
+  } catch (error) {
+    console.error("Error fetching admin details:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 // Start the server
 app.listen(port, () => {
