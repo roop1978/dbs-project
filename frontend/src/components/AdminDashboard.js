@@ -5,12 +5,12 @@ const AdminDashboard = ({ adminDetails }) => {
   const [formDetails, setFormDetails] = useState({
     admin_id: "",
     username: "",
-    menu_id: "",
-    meal_type: "",
+    mealType: "",
     price: "",
-    item_name_1: "",
-    item_name_2: "",
-    item_name_3: "",
+    itemName1: "",
+    itemName2: "",
+    itemName3: "",
+    menuImage: null,
   });
 
   useEffect(() => {
@@ -18,30 +18,42 @@ const AdminDashboard = ({ adminDetails }) => {
       setFormDetails((prevState) => ({
         ...prevState,
         username: adminDetails.username,
-        admin_id: adminDetails.admin_id, // Assuming admin_id is the property in adminDetails
+        admin_id: adminDetails.admin_id,
       }));
     }
   }, [adminDetails]);
 
   const handleAdminDetailsSubmit = (e) => {
     e.preventDefault();
-    // Send the formDetails object to the backend API for processing
-    console.log(formDetails); // Placeholder for API call
+    console.log(formDetails);
   };
 
-  const handleMenuCreate = async () => {
+  const handleImageChange = (e) => {
+    setFormDetails({ ...formDetails, menuImage: e.target.files[0] });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:4000/menu/create", {
-        meal_id: formDetails.meal_id,
-        meal_type: formDetails.meal_type,
-        price: formDetails.price,
-        item_name_1: formDetails.item_name_1,
-        item_name_2: formDetails.item_name_2,
-        item_name_3: formDetails.item_name_3,
-      });
+      const formData = new FormData();
+      formData.append("menuImage", formDetails.menuImage);
+      formData.append("mealType", formDetails.mealType);
+      formData.append("price", formDetails.price);
+      formData.append("itemName1", formDetails.itemName1);
+      formData.append("itemName2", formDetails.itemName2);
+      formData.append("itemName3", formDetails.itemName3);
+
+      const response = await axios.post(
+        "http://localhost:4000/menu/create",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       if (response.status === 200) {
-        // Menu creation successful
         alert("Menu created successfully!");
       } else {
         alert("Error creating menu. Please try again later.");
@@ -51,6 +63,7 @@ const AdminDashboard = ({ adminDetails }) => {
       console.error("Error creating menu:", error);
     }
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormDetails({ ...formDetails, [name]: value });
@@ -105,13 +118,26 @@ const AdminDashboard = ({ adminDetails }) => {
         </div>
       </form>
       {/* Menu creation form */}
-      <form onSubmit={handleMenuCreate}>
+      <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: "15px" }}>
+          <label style={{ fontWeight: "bold" }}>Menu Image:</label>
+          <input
+            type="file"
+            name="menuImage"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{
+              marginLeft: "10px",
+              width: "100%",
+            }}
+          />
+        </div>
         <div style={{ marginBottom: "15px" }}>
           <label style={{ fontWeight: "bold" }}>Meal Type:</label>
           <input
             type="text"
             name="mealType"
-            value={formDetails.meal_type}
+            value={formDetails.mealType}
             onChange={handleChange}
             style={{
               marginLeft: "10px",
@@ -143,7 +169,7 @@ const AdminDashboard = ({ adminDetails }) => {
           <input
             type="text"
             name="itemName1"
-            value={formDetails.item_name_1}
+            value={formDetails.itemName1}
             onChange={handleChange}
             style={{
               marginLeft: "10px",
@@ -159,7 +185,7 @@ const AdminDashboard = ({ adminDetails }) => {
           <input
             type="text"
             name="itemName2"
-            value={formDetails.item_name_2}
+            value={formDetails.itemName2}
             onChange={handleChange}
             style={{
               marginLeft: "10px",
@@ -175,7 +201,7 @@ const AdminDashboard = ({ adminDetails }) => {
           <input
             type="text"
             name="itemName3"
-            value={formDetails.item_name_3}
+            value={formDetails.itemName3}
             onChange={handleChange}
             style={{
               marginLeft: "10px",

@@ -1,19 +1,32 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-
-import Menu from "./pages/Menu";
-import LandingPage from "./components/LandingPage";
+import AnnouncementPage from "./components/AnnouncementPage";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentLogin from "./components/StudentLogin";
 import AdminLogin from "./components/AdminLogin";
-import StudentDashboard from "./components/StudentDashboard";
-import AdminDashboard from "./components/AdminDashboard";
-const App = () => {
-  return (
-    <Router>
-     {/* <AdminLogin></AdminLogin> */}
-     <StudentLogin></StudentLogin>
-    </Router>
-  );
-};
+import CommunityEventsPage from "./components/CommunityEvents";
+function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AnnouncementPage />,
+    },
+    {
+      path: "/student-login",
+
+      element: <StudentLogin />,
+    },
+    {
+      path: "/admin-login",
+
+      element: <AdminLogin />,
+    },
+    {
+      path: "/community",
+
+      element: <CommunityEventsPage />,
+    },
+  ]);
+  return <RouterProvider router={router} />;
+}
 
 export default App;

@@ -36,3 +36,136 @@
     transform: rotate(360deg);
   }
 }
+/* Login Container */
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  max-width: 375px; /* Increased width */
+  width: 100%; /* Adjust based on preference, ensures responsiveness */
+  margin: auto; /* Centers the container on the page */
+}
+
+/* Login and Menu Buttons */
+.login-button, .menu-button, .toggle-login {
+  background-color: #007bff; /* Primary button color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.login-button:hover, .menu-button:hover, .toggle-login:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Adjustments for the logo to ensure it fits well within the login container */
+.login-logo {
+  width: 80px; /* Or adjust as needed to fit your design */
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+/* Styling for form labels and inputs for consistency */
+form div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+form label {
+  margin-bottom: 0.5rem;
+}
+
+form input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 1rem; /* Space between the inputs */
+}
+
+.menu-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.menu-container h2 {
+  margin: 20px 0;
+}
+
+.menu-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.menu-container form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-container select, .menu-container input[type="time"] {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.submit-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+
+/* General button styling */
+.navigate-button {
+  background-color: #17a2b8; /* Bootstrap's info button color for reference */
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px; /* Adds space between the form and navigation buttons */
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.navigate-button:hover {
+  background-color: #138496; /* Darker shade for hover effect */
+  transform: scale(1.05); /* Slightly enlarges the button on hover */
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* Ensures consistent spacing between elements */
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

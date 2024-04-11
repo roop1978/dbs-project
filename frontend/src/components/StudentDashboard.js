@@ -78,7 +78,7 @@ const StudentDashboard = ({ studentDetails }) => {
           <input
             type="text"
             name="id"
-            value={formDetails.id}
+            value={formDetails.student_id}
             onChange={handleChange}
             style={{
               marginLeft: "10px",

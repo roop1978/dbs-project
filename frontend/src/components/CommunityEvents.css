@@ -1,0 +1,37 @@
+/* CommunityEventsPage.css */
+
+.community-events-page {
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  background: #f0f0f0;
+}
+
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.events {
+  margin-top: 20px;
+}
+
+.event {
+  margin-bottom: 20px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.event h2 {
+  margin-top: 0;
+}
+
+.event p {
+  margin-bottom: 10px;
+}

@@ -1,6 +1,9 @@
+// adminlogin.js
 import React, { useState, useEffect } from "react";
 import authService from "../services/authServices";
 import AdminDashboard from "./AdminDashboard";
+import logo from "../assets/logo.png";
+import "../App.css"
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
@@ -51,15 +54,8 @@ const AdminLogin = () => {
   }, [authenticated]);
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "auto",
-        padding: "20px",
-        backgroundColor: "#f9f9f9",
-        borderRadius: "10px",
-      }}
-    >
+    <div className="login-container">
+      <img src={logo} alt="Admin Logo" className="login-logo" />
       {authenticated ? (
         adminDetails ? (
           <AdminDashboard adminDetails={adminDetails} />
@@ -68,54 +64,31 @@ const AdminLogin = () => {
         )
       ) : (
         <>
-          <h2 style={{ textAlign: "center" }}>Admin Login</h2>
-          <form
-            onSubmit={handleLogin}
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              style={{
-                marginBottom: "10px",
-                padding: "8px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-              }}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              style={{
-                marginBottom: "10px",
-                padding: "8px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "#4CAF50",
-                color: "white",
-                padding: "10px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Login
-            </button>
+          <h2>Admin Login</h2>
+          <form onSubmit={handleLogin}>
+            <div>
+              <label htmlFor="admin-username">Username:</label>
+              <input
+                type="text"
+                id="admin-username"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="admin-password">Password:</label>
+              <input
+                type="password"
+                id="admin-password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit">Login</button>
           </form>
-          {error && (
-            <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
-              {error}
-            </p>
-          )}
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </>
       )}
     </div>
