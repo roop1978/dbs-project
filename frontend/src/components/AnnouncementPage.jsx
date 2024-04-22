@@ -27,7 +27,7 @@ function AnnouncementPage() {
   return (
     <div className="landing-page">
       <header className="header">
-        <h1>Welcome to Our Website</h1>
+        <h1>Welcome to Campus Dining Hall</h1>
       </header>
 
       <main className="main">

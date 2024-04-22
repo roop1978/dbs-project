@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import StudentLogin from "./components/StudentLogin";
 import AdminLogin from "./components/AdminLogin";
 import CommunityEventsPage from "./components/CommunityEvents";
+import LandingPage from "./components/LandingPage";
 function App() {
   const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ function App() {
       path: "/community",
 
       element: <CommunityEventsPage />,
+    },
+    {
+      path: "/landing-page",
+      element: <LandingPage />,
     },
   ]);
   return <RouterProvider router={router} />;

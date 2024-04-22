@@ -46,13 +46,24 @@
   flex-direction: column;
   align-items: center;
   gap: 15px;
-  max-width: 375px; /* Increased width */
+  max-width: 575px; /* Increased width */
   width: 100%; /* Adjust based on preference, ensures responsiveness */
   margin: auto; /* Centers the container on the page */
+  background-image: url("./assets/dining-hall.jpg"); /* Replace 'path/to/your/image.jpg' with the actual path to your background image */
+  background-size: cover;
+  background-position: center;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.5
+  ); /* Change the alpha value (0.5) to adjust opacity */
 }
 
 /* Login and Menu Buttons */
-.login-button, .menu-button, .toggle-login {
+.login-button,
+.menu-button,
+.toggle-login {
   background-color: #007bff; /* Primary button color */
   color: white;
   border: none;
@@ -62,7 +73,9 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.login-button:hover, .menu-button:hover, .toggle-login:hover {
+.login-button:hover,
+.menu-button:hover,
+.toggle-login:hover {
   background-color: #0056b3; /* Darker shade on hover */
 }
 
@@ -118,7 +131,8 @@ form input {
   flex-direction: column;
 }
 
-.menu-container select, .menu-container input[type="time"] {
+.menu-container select,
+.menu-container input[type="time"] {
   padding: 8px;
   margin-top: 5px;
   border: 1px solid #ced4da;

@@ -4,6 +4,7 @@ import cors from "cors";
 import * as database from "./database/database.js";
 import {
   authenticateStudent,
+  getFeedback,
   authenticateAdmin,
   fetchStudentDetails,
   getAdminDetails,
@@ -26,7 +27,6 @@ const port = 4000;
 
 app.use(cors());
 app.use(express.json());
-const upload = multer({ dest: "uploads/" });
 
 app.post("/login/student", async (req, res) => {
   const { studentId, password } = req.body;
@@ -183,19 +183,37 @@ app.post("/transaction", async (req, res) => {
   }
 });
 
-app.post("/feedback", async (req, res) => {
+app.post("/postfeedback", async (req, res) => {
   try {
-    const { feedbackText, studentId } = req.body;
-    if (!feedbackText || !studentId) {
-      return res
-        .status(400)
-        .json({ message: "Feedback text and student ID are required" });
+    const { feedbackId, feedbackText, studentId } = req.body;
+
+    // Check if required fields are provided
+    if (!feedbackText || !studentId || !feedbackId) {
+      return res.status(400).json({
+        message: "Feedback text, student ID, and feedback ID are required",
+      });
     }
-    await saveFeedbackToDatabase(feedbackText, studentId);
+
+    // Save feedback to database
+    await saveFeedbackToDatabase(feedbackId, feedbackText, studentId);
+
     return res.status(200).json({ message: "Feedback submitted successfully" });
   } catch (error) {
     console.error("Error submitting feedback:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+});
+// Define route for fetching feedback
+app.get("/feedback", async (req, res) => {
+  try {
+    // Call function to get feedback from the database
+    const feedback = await getFeedback();
+
+    // Send feedback as response
+    res.status(200).json(feedback);
+  } catch (error) {
+    console.error("Error fetching feedback:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -212,24 +230,33 @@ app.get("/admin-details/:username", async (req, res) => {
 });
 
 // Endpoint to upload menu image
-app.post("/menu/upload", (req, res) => {
-  const { id, menuImage } = req.body;
-  uploadMenuImage(id, menuImage, (err, result) => {
-    if (err) {
-      return res.status(500).json({ error: "Error uploading menu image" });
-    }
-    res.json({ message: "Menu image uploaded successfully", result });
-  });
+
+const upload = multer({ dest: "uploads/" }); // Specify the destination for uploaded files
+
+app.post("/menu/upload", upload.single("menuImage"), async (req, res) => {
+  const menuImage = req.file; // Access the uploaded file through req.file
+
+  try {
+    // Call the uploadMenuImage function to upload the menu image
+    const result = await uploadMenuImage(menuImage);
+    res.send("Menu image uploaded successfully");
+  } catch (error) {
+    console.error("Error uploading menu image:", error);
+    res.status(500).send("Error uploading menu image");
+  }
 });
 
 // Endpoint to get latest menu image
-app.get("/menu/latest", async (req, res) => {
+app.get("/latest-menu-image", async (req, res) => {
   try {
-    const imagePath = await getLatestMenuImage();
-    res.status(200).json({ imagePath });
+    // Call the function to get the latest menu image URL
+    const latestMenuImage = await getLatestMenuImage();
+
+    // Send the latest menu image URL as a response
+    res.json({ latestMenuImage });
   } catch (error) {
-    console.error("Error retrieving latest menu image:", error);
-    res.status(500).send("Internal server error");
+    console.error("Error fetching latest menu image:", error);
+    res.status(500).json({ error: "Error fetching latest menu image" });
   }
 });
 

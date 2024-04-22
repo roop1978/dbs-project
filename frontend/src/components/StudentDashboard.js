@@ -8,7 +8,9 @@ const StudentDashboard = ({ studentDetails }) => {
     cgpa: "",
     remaining_balance: "",
   });
-
+  const [feedbackId, setFeedbackId] = useState("");
+  const [feedbackText, setFeedbackText] = useState("");
+  const [showFeedbackInput, setShowFeedbackInput] = useState(false);
   useEffect(() => {
     if (studentDetails) {
       setFormDetails(studentDetails);
@@ -42,11 +44,33 @@ const StudentDashboard = ({ studentDetails }) => {
       console.error("Error availing meal:", error);
     }
   };
+  const handleFeedbackButtonClick = () => {
+    setShowFeedbackInput(true);
+  };
+
+  const handleSubmitFeedback = async () => {
+    try {
+      const response = await axios.post("http://localhost:4000/postfeedback", {
+        feedbackId,
+        feedbackText,
+        studentId: formDetails.student_id,
+      });
+      if (response.status === 200) {
+        alert("Feedback submitted successfully!");
+        setFeedbackId("");
+        setFeedbackText("");
+        setShowFeedbackInput(false);
+      }
+    } catch (error) {
+      alert("Error submitting feedback. Please try again later.");
+      console.error("Error submitting feedback:", error);
+    }
+  };
 
   return (
     <div
       style={{
-        maxWidth: "400px",
+        maxWidth: "600px",
         margin: "auto",
         padding: "20px",
         backgroundColor: "#f9f9f9",
@@ -69,7 +93,7 @@ const StudentDashboard = ({ studentDetails }) => {
               padding: "8px",
               borderRadius: "5px",
               border: "1px solid #ccc",
-              width: "100%",
+              width: "80%",
             }}
           />
         </div>
@@ -85,7 +109,7 @@ const StudentDashboard = ({ studentDetails }) => {
               padding: "8px",
               borderRadius: "5px",
               border: "1px solid #ccc",
-              width: "100%",
+              width: "80%",
             }}
           />
         </div>
@@ -101,7 +125,7 @@ const StudentDashboard = ({ studentDetails }) => {
               padding: "8px",
               borderRadius: "5px",
               border: "1px solid #ccc",
-              width: "100%",
+              width: "80%",
             }}
           />
         </div>
@@ -117,44 +141,78 @@ const StudentDashboard = ({ studentDetails }) => {
               padding: "8px",
               borderRadius: "5px",
               border: "1px solid #ccc",
-              width: "100%",
+              width: "80%",
             }}
           />
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <button
-            type="submit"
-            style={{
-              backgroundColor: "#4CAF50",
-              color: "white",
-              padding: "10px 20px",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              width: "45%",
-            }}
-          >
-            Submit
-          </button>
-          <button
-            type="button"
-            onClick={handleAvailMeal}
-            style={{
-              backgroundColor: "#008CBA",
-              color: "white",
-              padding: "10px 20px",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              width: "45%",
-            }}
-          >
-            Avail Meal
-          </button>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "15px",
+          }}
+        >
+          {showFeedbackInput ? (
+            <div style={{ flex: 1 }}>
+              <input
+                type="text"
+                value={feedbackText}
+                onChange={(e) => setFeedbackText(e.target.value)}
+                placeholder="Type your feedback here..."
+                style={{
+                  width: "100%",
+                  padding: "8px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                  marginRight: "10px",
+                }}
+              />
+              <input
+                type="text"
+                value={feedbackId}
+                onChange={(e) => setFeedbackId(e.target.value)}
+                placeholder="Feedback ID"
+                style={{
+                  width: "100%",
+                  padding: "8px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                  marginRight: "10px",
+                }}
+              />
+              <button
+                onClick={handleSubmitFeedback}
+                style={{
+                  backgroundColor: "#008CBA",
+                  color: "white",
+                  padding: "8px 15px",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Submit Feedback
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={handleFeedbackButtonClick}
+              style={{
+                backgroundColor: "#4CAF50",
+                color: "white",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              Provide Feedback
+            </button>
+          )}
         </div>
       </form>
     </div>
   );
 };
-
 export default StudentDashboard;

@@ -4,12 +4,7 @@ import axios from "axios";
 const AdminDashboard = ({ adminDetails }) => {
   const [formDetails, setFormDetails] = useState({
     admin_id: "",
-    username: "",
-    mealType: "",
-    price: "",
-    itemName1: "",
-    itemName2: "",
-    itemName3: "",
+    name: "", // Changed from username to name to match the state update logic
     menuImage: null,
   });
 
@@ -17,7 +12,7 @@ const AdminDashboard = ({ adminDetails }) => {
     if (adminDetails) {
       setFormDetails((prevState) => ({
         ...prevState,
-        username: adminDetails.username,
+        name: adminDetails.name,
         admin_id: adminDetails.admin_id,
       }));
     }
@@ -36,15 +31,11 @@ const AdminDashboard = ({ adminDetails }) => {
     e.preventDefault();
     try {
       const formData = new FormData();
+      formData.append("admin_id", formDetails.admin_id); // Pass admin ID to the backend
       formData.append("menuImage", formDetails.menuImage);
-      formData.append("mealType", formDetails.mealType);
-      formData.append("price", formDetails.price);
-      formData.append("itemName1", formDetails.itemName1);
-      formData.append("itemName2", formDetails.itemName2);
-      formData.append("itemName3", formDetails.itemName3);
 
       const response = await axios.post(
-        "http://localhost:4000/menu/create",
+        "http://localhost:4000/menu/upload",
         formData,
         {
           headers: {
@@ -54,19 +45,14 @@ const AdminDashboard = ({ adminDetails }) => {
       );
 
       if (response.status === 200) {
-        alert("Menu created successfully!");
+        alert("Menu image uploaded successfully!");
       } else {
-        alert("Error creating menu. Please try again later.");
+        alert("Error uploading menu image. Please try again later.");
       }
     } catch (error) {
-      alert("Error creating menu. Please try again later.");
-      console.error("Error creating menu:", error);
+      alert("Error uploading menu image. Please try again later.");
+      console.error("Error uploading menu image:", error);
     }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormDetails({ ...formDetails, [name]: value });
   };
 
   return (
@@ -88,9 +74,9 @@ const AdminDashboard = ({ adminDetails }) => {
           <label style={{ fontWeight: "bold" }}>Name:</label>
           <input
             type="text"
-            name="username"
-            value={formDetails.username}
-            onChange={handleChange}
+            name="name"
+            value={formDetails.name}
+            readOnly // Make the name field read-only
             style={{
               marginLeft: "10px",
               padding: "8px",
@@ -106,7 +92,7 @@ const AdminDashboard = ({ adminDetails }) => {
             type="text"
             name="admin_id"
             value={formDetails.admin_id}
-            onChange={handleChange}
+            readOnly // Make the admin ID field read-only
             style={{
               marginLeft: "10px",
               padding: "8px",
@@ -128,86 +114,6 @@ const AdminDashboard = ({ adminDetails }) => {
             onChange={handleImageChange}
             style={{
               marginLeft: "10px",
-              width: "100%",
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Meal Type:</label>
-          <input
-            type="text"
-            name="mealType"
-            value={formDetails.mealType}
-            onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "100%",
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Price:</label>
-          <input
-            type="number"
-            name="price"
-            value={formDetails.price}
-            onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "100%",
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Item 1:</label>
-          <input
-            type="text"
-            name="itemName1"
-            value={formDetails.itemName1}
-            onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "100%",
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Item 2:</label>
-          <input
-            type="text"
-            name="itemName2"
-            value={formDetails.itemName2}
-            onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "100%",
-            }}
-          />
-        </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Item 3:</label>
-          <input
-            type="text"
-            name="itemName3"
-            value={formDetails.itemName3}
-            onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
               width: "100%",
             }}
           />

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import authService from "../services/authServices";
 import AdminDashboard from "./AdminDashboard";
 import logo from "../assets/logo.png";
-import "../App.css"
+import "./AdminLogin.css"
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
@@ -64,7 +64,7 @@ const AdminLogin = () => {
         )
       ) : (
         <>
-          <h2>Admin Login</h2>
+          <h2 >Admin Login</h2>
           <form onSubmit={handleLogin}>
             <div>
               <label htmlFor="admin-username">Username:</label>

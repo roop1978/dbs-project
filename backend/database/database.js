@@ -203,23 +203,45 @@ async function postAnnouncement(title, message) {
   }
 }
 
-async function saveFeedbackToDatabase(feedbackText, studentId) {
+async function saveFeedbackToDatabase(feedbackId,feedbackText,studentId) {
   try {
+    // Log parameters for debugging
+    console.log("Saving feedback to database with parameters:");
+    console.log("Feedback Text:", feedbackText);
+    console.log("Student ID:", studentId);
+    console.log("Feedback ID:", feedbackId);
+
+    // Execute SQL query to insert feedback
     await pool.execute(
-      "INSERT INTO feedback (feedback_text, student_id) VALUES (?, ?)",
-      [feedbackText, studentId]
+      "INSERT INTO feedback (feedback_id, feedback_text, student_id) VALUES (?, ?, ?)",
+      [feedbackId, feedbackText, studentId]
     );
   } catch (error) {
+    // Log error if any
     console.error("Error saving feedback to database:", error);
+    throw error; // Throw error for further handling
+  }
+}
+// Function to retrieve feedback from the database
+async function getFeedback() {
+  try {
+    // Execute SQL query to fetch feedback from the database
+    const [rows] = await pool.query("SELECT * FROM feedback");
+
+    // Return the fetched feedback
+    return rows;
+  } catch (error) {
+    console.error("Error fetching feedback from the database:", error);
     throw error;
   }
 }
 
-async function uploadMenuImage(id, menuImage) {
+async function uploadMenuImage(menuImage) {
   try {
+    // Use menuImage.path or menuImage.buffer depending on how multer saves the file
     const [result] = await pool.execute(
-      "INSERT INTO weekly_menu (id, menu_image) VALUES (?, ?)",
-      [id, menuImage]
+      "INSERT INTO weekly_menu (menu_image) VALUES (?)",
+      [menuImage.path] // Adjust this based on how multer saves the file
     );
     console.log("Menu image uploaded successfully");
     return result;
@@ -285,4 +307,5 @@ export {
   getLatestMenuImage,
   getCommunityEvents,
   postCommunityEvent,
+  getFeedback,
 };
