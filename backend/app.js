@@ -137,14 +137,16 @@ app.get("/menu", async (req, res) => {
 });
 
 app.post("/announcements", async (req, res) => {
-  const { title, message } = req.body;
+  const { title, message, announcement_id } = req.body;
 
-  if (!title || !message) {
-    return res.status(400).json({ error: "Title and message are required" });
+  if (!title || !message || !announcement_id) {
+    return res
+      .status(400)
+      .json({ error: "Title, message, and announcement ID are required" });
   }
 
   try {
-    await database.postAnnouncement(title, message);
+    await postAnnouncement(title, message, announcement_id);
     return res.status(201).json({ success: true });
   } catch (error) {
     console.error("Error posting announcement:", error);
@@ -275,11 +277,13 @@ app.get("/community", async (req, res) => {
 
 // Endpoint to post a new community event
 app.post("/community", async (req, res) => {
+  const { event_id, title } = req.body;
+
+  if (!event_id || !title) {
+    return res.status(400).json({ error: "Event ID and title are required" });
+  }
+
   try {
-    const { event_id, title } = req.body;
-    if (!event_id || !title) {
-      return res.status(400).json({ error: "Event ID and title are required" });
-    }
     await postCommunityEvent(event_id, title);
     res.status(201).json({ success: true });
   } catch (error) {
@@ -289,6 +293,7 @@ app.post("/community", async (req, res) => {
       .json({ error: "An error occurred while posting the community event" });
   }
 });
+
 // Endpoint to get announcements
 app.get("/announcements", async (req, res) => {
   try {

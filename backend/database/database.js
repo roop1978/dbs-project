@@ -181,7 +181,9 @@ async function processTransaction(studentId, transactionAmount) {
 
 async function getAnnouncements() {
   try {
-    const [rows] = await pool.execute("SELECT * FROM announcements");
+    const [rows] = await pool.execute(
+      "SELECT announcement_id, title, message FROM announcements"
+    );
     return rows;
   } catch (error) {
     console.error("Error getting announcements:", error);
@@ -189,21 +191,21 @@ async function getAnnouncements() {
   }
 }
 
-async function postAnnouncement(title, message) {
+
+async function postAnnouncement(title, message, announcement_id) {
   try {
-    const [result] = await pool.execute(
-      "INSERT INTO announcements (title, message) VALUES (?, ?)",
-      [title, message]
+    await pool.execute(
+      "INSERT INTO announcements (title, message, announcement_id) VALUES (?, ?, ?)",
+      [title, message, announcement_id]
     );
     console.log("Announcement posted successfully");
-    return result;
   } catch (error) {
     console.error("Error inserting announcement:", error);
     throw error;
   }
 }
 
-async function saveFeedbackToDatabase(feedbackId,feedbackText,studentId) {
+async function saveFeedbackToDatabase(feedbackId, feedbackText, studentId) {
   try {
     // Log parameters for debugging
     console.log("Saving feedback to database with parameters:");
@@ -269,19 +271,23 @@ async function getLatestMenuImage() {
 
 async function getCommunityEvents() {
   try {
-    const [rows] = await pool.execute("SELECT * FROM community_events");
+    const [rows] = await pool.execute(
+      "SELECT event_id, title FROM community_events"
+    );
     return rows;
   } catch (error) {
-    console.error("Error fetching community events:", error);
+    console.error("Error getting community events:", error);
     throw error;
   }
 }
 
-async function postCommunityEvent(title) {
+
+async function postCommunityEvent(event_id, title) {
   try {
-    await pool.execute("INSERT INTO community_events (title) VALUES (?)", [
-      title,
-    ]);
+    await pool.execute(
+      "INSERT INTO community_events (event_id, title) VALUES (?, ?)",
+      [event_id, title]
+    );
     console.log("Community event posted successfully");
   } catch (error) {
     console.error("Error posting community event:", error);

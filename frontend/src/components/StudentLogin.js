@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import logo from "../assets/logo.png"; // Verify this path is correct for your project setup
 import authService from "../services/authServices";
 import StudentDashboard from "./StudentDashboard";
-import "../App.css";
+import "./StudentLogin.css";
 const StudentLogin = ({ goToMenu, toggleLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

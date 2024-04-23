@@ -1,12 +1,71 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import "./AdminDashboard.css";
 const AdminDashboard = ({ adminDetails }) => {
   const [formDetails, setFormDetails] = useState({
     admin_id: "",
     name: "", // Changed from username to name to match the state update logic
     menuImage: null,
   });
+  const [announcementDetails, setAnnouncementDetails] = useState({
+    title: "",
+    message: "",
+    announcement_id: "",
+  });
+
+  const [eventDetails, setEventDetails] = useState({
+    title: "",
+    event_id: "",
+  });
+
+  const handleAnnouncementChange = (e) => {
+    const { name, value } = e.target;
+    setAnnouncementDetails((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleEventChange = (e) => {
+    const { name, value } = e.target;
+    setEventDetails((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleAnnouncementSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/announcements", {
+        title: announcementDetails.title,
+        message: announcementDetails.message,
+        announcement_id: announcementDetails.announcement_id, // Include announcement ID in request
+      });
+      if (response.status === 201) {
+        alert("Announcement posted successfully!");
+      }
+    } catch (error) {
+      alert("Error posting announcement. Please try again later.");
+      console.error("Error posting announcement:", error);
+    }
+  };
+
+  const handleEventSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/community", {
+        title: eventDetails.title,
+        event_id: eventDetails.event_id, // Include event ID in request
+      });
+      if (response.status === 201) {
+        alert("Community event posted successfully!");
+      }
+    } catch (error) {
+      alert("Error posting community event. Please try again later.");
+      console.error("Error posting community event:", error);
+    }
+  };
 
   useEffect(() => {
     if (adminDetails) {
@@ -56,81 +115,97 @@ const AdminDashboard = ({ adminDetails }) => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        margin: "auto",
-        padding: "20px",
-        backgroundColor: "#f9f9f9",
-        borderRadius: "10px",
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Admin Dashboard
-      </h2>
-      {/* Admin details form */}
-      <form onSubmit={handleAdminDetailsSubmit}>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Name:</label>
+    <div className="admin-dashboard-container">
+      <h2 className="dashboard-title">Admin Dashboard</h2>
+      <form className="admin-details-form" onSubmit={handleAdminDetailsSubmit}>
+        <div className="form-group">
+          <label htmlFor="name">Name:</label> <br></br>
           <input
             type="text"
+            id="name"
             name="name"
             value={formDetails.name}
-            readOnly // Make the name field read-only
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "100%",
-            }}
+            readOnly
           />
         </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Admin ID:</label>
+        <div className="form-group">
+          <label htmlFor="admin_id">Admin ID:</label>
           <input
             type="text"
+            id="admin_id"
             name="admin_id"
             value={formDetails.admin_id}
-            readOnly // Make the admin ID field read-only
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "100%",
-            }}
+            readOnly
           />
         </div>
       </form>
-      {/* Menu creation form */}
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Menu Image:</label>
+      <form className="menu-creation-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="menuImage">Menu Image:</label>
           <input
             type="file"
+            id="menuImage"
             name="menuImage"
             accept="image/*"
             onChange={handleImageChange}
-            style={{
-              marginLeft: "10px",
-              width: "100%",
-            }}
           />
         </div>
-        <button
-          type="submit"
-          style={{
-            backgroundColor: "#008CBA",
-            color: "white",
-            padding: "10px 20px",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            width: "100%",
-          }}
-        >
+        <button className="btn-create-menu" type="submit">
           Create Menu
+        </button>
+      </form>
+      <form className="announcement-form" onSubmit={handleAnnouncementSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">Announcement Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Announcement Title"
+            value={announcementDetails.title}
+            onChange={handleAnnouncementChange}
+          />
+          <textarea
+            name="message"
+            placeholder="Announcement Message"
+            value={announcementDetails.message}
+            onChange={handleAnnouncementChange}
+          />
+          <input
+            type="text"
+            id="announcement_id"
+            name="announcement_id"
+            placeholder="Announcement ID"
+            value={announcementDetails.announcement_id}
+            onChange={handleAnnouncementChange}
+          />
+        </div>
+        <button className="btn-post-announcement" type="submit">
+          Post Announcement
+        </button>
+      </form>
+      <form className="event-form" onSubmit={handleEventSubmit}>
+        <div className="form-group">
+          <label htmlFor="title">Event Title:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            placeholder="Event Title"
+            value={eventDetails.title}
+            onChange={handleEventChange}
+          />
+          <input
+            type="text"
+            id="event_id"
+            name="event_id"
+            placeholder="Event ID"
+            value={eventDetails.event_id}
+            onChange={handleEventChange}
+          />
+        </div>
+        <button className="btn-post-event" type="submit">
+          Post Community Event
         </button>
       </form>
     </div>

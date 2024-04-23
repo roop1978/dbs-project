@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import authService from "../services/authServices";
 import AdminDashboard from "./AdminDashboard";
 import logo from "../assets/logo.png";
-import "./AdminLogin.css"
+import "./AdminLogin.css";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
@@ -64,35 +64,38 @@ const AdminLogin = () => {
         )
       ) : (
         <>
-          <h2 >Admin Login</h2>
-          <form onSubmit={handleLogin}>
-            <div>
-              <label htmlFor="admin-username">Username:</label>
-              <input
-                type="text"
-                id="admin-username"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="admin-password">Password:</label>
-              <input
-                type="password"
-                id="admin-password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button type="submit">Login</button>
-          </form>
-          {error && <p style={{ color: "red" }}>{error}</p>}
+          <div className="admin-login-container">
+            <h2>Admin Login</h2>
+            <form className="login-form" onSubmit={handleLogin}>
+              <div className="form-group">
+                <label htmlFor="admin-username">Username:</label>
+                <input
+                  type="text"
+                  id="admin-username"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="admin-password">Password:</label>
+                <input
+                  type="password"
+                  id="admin-password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <button className="login-button" type="submit">
+                Login
+              </button>
+            </form>
+            {error && <p className="error-message">{error}</p>}
+          </div>
         </>
       )}
     </div>
   );
 };
-
 export default AdminLogin;

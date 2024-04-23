@@ -1,0 +1,75 @@
+/* Admin Dashboard Styles */
+
+/* Container for the entire admin dashboard */
+.admin-dashboard-container {
+  width: 400px;
+  height: 900px;
+  margin: auto;
+  padding: 20px;
+  background-color: #b5c9f3;
+  border-radius: 10px;
+}
+
+/* Title styling */
+.dashboard-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: xx-large;
+  font-weight: 800;
+}
+
+/* Form group styling */
+.form-group {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+/* Input, file input, and textarea styling */
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group textarea {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 80%;
+}
+
+/* Button styling */
+.btn-create-menu,
+.btn-post-announcement,
+.btn-post-event {
+  background-color: #008cba;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 80px;
+  width: 50%;
+  height: 40%;
+  transition: background-color 0.3s ease;
+}
+.btn-create-menu:hover,
+.btn-post-announcement:hover,
+.btn-post-event:hover {
+  background-color: #007aa8;
+}
+
+/* Button active state */
+.btn-create-menu:active,
+.btn-post-announcement:active,
+.btn-post-event:active {
+  background-color: #005e82;
+}
+h2{
+  margin-left: 50px;
+}
