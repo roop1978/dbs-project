@@ -1,39 +1,64 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import "./LandingPage.css";
 const LandingPage = () => {
-  const [latestMenuImagePath, setLatestMenuImagePath] = useState(null);
+  const [announcements, setAnnouncements] = useState([]);
+  const [communityEvents, setCommunityEvents] = useState([]);
 
   useEffect(() => {
-    const fetchLatestMenuImage = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:4000/latest-menu-image"
-        );
-        const relativePath = response.data.latestMenuImage;
-        const absolutePath = `http://localhost:4000/${relativePath.replace(
-          /\\/g,
-          "/"
-        )}`;
-        setLatestMenuImagePath(absolutePath);
-      } catch (error) {
-        console.error("Error fetching latest menu image:", error);
-      }
-    };
+    // Fetch announcements
+    axios
+      .get("http://localhost:4000/announcements")
+      .then((response) => {
+        setAnnouncements(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching announcements:", error);
+      });
 
-    fetchLatestMenuImage();
+    // Fetch community events
+    axios
+      .get("http://localhost:4000/community")
+      .then((response) => {
+        setCommunityEvents(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching community events:", error);
+      });
   }, []);
 
   return (
-    <div>
-      <h1>Welcome to Our Restaurant!</h1>
-      {latestMenuImagePath && (
-        <img
-          src={latestMenuImagePath}
-          alt="Latest Menu"
-          style={{ maxWidth: "100%", height: "auto", width: "500px" }} // Adjust width as needed
-        />
-      )}
+    <div className="landing-page">
+      <div className="tab-container">
+        {/* Announcements Tab */}
+        <div className="tab-wrapper">
+          <h2 className="tab-title">Announcements</h2>
+          <section className="announcements-section">
+            <ul className="announcement-list">
+              {announcements.map((announcement) => (
+                <li key={announcement.id}>
+                  <h3 className="announcement-title">{announcement.title}</h3>
+                  <p className="announcement-message">{announcement.message}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        {/* Community Events Tab */}
+        <div className="tab-wrapper">
+          <h2 className="tab-title">Community Events</h2>
+          <section className="community-events-section">
+            <ul className="event-list">
+              {communityEvents.map((event) => (
+                <li key={event.id}>
+                  <h3 className="event-title">{event.title}</h3>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      </div>
     </div>
   );
 };

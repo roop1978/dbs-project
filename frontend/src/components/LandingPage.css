@@ -1,0 +1,60 @@
+/* styles.css */
+
+.landing-page {
+  width: 100%;
+  height: 100vh;
+}
+
+.tab-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab-wrapper {
+  margin-top: 100px;
+  width: 500px;
+  height: 100%;
+  background-color: aliceblue;
+  border-radius: 30px;
+}
+
+.tab-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  margin-left: 150px;
+  margin-top: 25px;
+}
+
+.announcements-section,
+.community-events-section {
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Add overflow auto to enable scrolling if content exceeds the container size */
+}
+
+.announcements-list,
+.event-list {
+  list-style-type: disc;
+  padding: 0;
+}
+
+.announcements-list li,
+.event-list li {
+  padding: 10px;
+}
+
+.announcements-title,
+.event-title {
+  font-size: 18px;
+  margin: 10px;
+}
+
+.announcement-message,
+.event-date,
+.event-location {
+  font-size: 16px;
+  margin-bottom: 5px;
+  /* Allow text to wrap to the next line */
+  word-wrap: break-word;
+  white-space: normal;
+}

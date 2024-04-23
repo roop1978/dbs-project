@@ -90,6 +90,17 @@ app.get("/student-details/:studentId", async (req, res) => {
     res.status(500).json({ message: "Error retrieving student details" });
   }
 });
+// Endpoint to get admin details by username
+app.get("/admin-details/:username", async (req, res) => {
+  try {
+    const adminName = req.params.username;
+    const adminDetails = await getAdminDetails(adminName);
+    res.status(200).json(adminDetails);
+  } catch (error) {
+    console.error("Error fetching admin details:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 app.get("/remaining_balance", async (req, res) => {
   try {
@@ -99,60 +110,6 @@ app.get("/remaining_balance", async (req, res) => {
   } catch (error) {
     console.error("Error retrieving remaining balance:", error);
     res.status(500).json({ message: "Error retrieving remaining balance" });
-  }
-});
-
-app.post("/menu/create", async (req, res) => {
-  const { username, password, mealType, price, itemNames } = req.body;
-
-  try {
-    const isAdminAuthenticated = await database.authenticateAdmin(
-      username,
-      password
-    );
-    if (!isAdminAuthenticated) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    const menuId = await database.createMenuForNewWeek(
-      mealType,
-      price,
-      itemNames
-    );
-    res.status(200).json({ message: "Menu created successfully", menuId });
-  } catch (error) {
-    console.error("Error creating menu:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-app.get("/menu", async (req, res) => {
-  try {
-    const menuData = await database.getMenuForCurrentWeek();
-    res.json(menuData);
-  } catch (error) {
-    console.error("Error fetching menu:", error);
-    res.status(500).json({ message: "Error fetching menu" });
-  }
-});
-
-app.post("/announcements", async (req, res) => {
-  const { title, message, announcement_id } = req.body;
-
-  if (!title || !message || !announcement_id) {
-    return res
-      .status(400)
-      .json({ error: "Title, message, and announcement ID are required" });
-  }
-
-  try {
-    await postAnnouncement(title, message, announcement_id);
-    return res.status(201).json({ success: true });
-  } catch (error) {
-    console.error("Error posting announcement:", error);
-    return res
-      .status(500)
-      .json({ error: "An error occurred while posting the announcement" });
   }
 });
 
@@ -219,48 +176,19 @@ app.get("/feedback", async (req, res) => {
   }
 });
 
-// Endpoint to get admin details by username
-app.get("/admin-details/:username", async (req, res) => {
-  try {
-    const adminName = req.params.username;
-    const adminDetails = await getAdminDetails(adminName);
-    res.status(200).json(adminDetails);
-  } catch (error) {
-    console.error("Error fetching admin details:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
+app.post("/menu/create", (req, res) => {
+  const { meal, day, items } = req.body;
+  const query = "INSERT INTO menu (meal, day, items) VALUES (?, ?, ?)";
+  pool.query(query, [meal, day, items], (error, results) => {
+    if (error) {
+      console.error("Error creating menu:", error);
+      res.status(500).json({ error: "Error creating menu" });
+    } else {
+      res.json({ message: "Menu created successfully" });
+    }
+  });
 });
 
-// Endpoint to upload menu image
-
-const upload = multer({ dest: "uploads/" }); // Specify the destination for uploaded files
-
-app.post("/menu/upload", upload.single("menuImage"), async (req, res) => {
-  const menuImage = req.file; // Access the uploaded file through req.file
-
-  try {
-    // Call the uploadMenuImage function to upload the menu image
-    const result = await uploadMenuImage(menuImage);
-    res.send("Menu image uploaded successfully");
-  } catch (error) {
-    console.error("Error uploading menu image:", error);
-    res.status(500).send("Error uploading menu image");
-  }
-});
-
-// Endpoint to get latest menu image
-app.get("/latest-menu-image", async (req, res) => {
-  try {
-    // Call the function to get the latest menu image URL
-    const latestMenuImage = await getLatestMenuImage();
-
-    // Send the latest menu image URL as a response
-    res.json({ latestMenuImage });
-  } catch (error) {
-    console.error("Error fetching latest menu image:", error);
-    res.status(500).json({ error: "Error fetching latest menu image" });
-  }
-});
 
 // Endpoint to get community events
 app.get("/community", async (req, res) => {
@@ -307,6 +235,25 @@ app.get("/announcements", async (req, res) => {
   }
 });
 
+app.post("/announcements", async (req, res) => {
+  const { title, message, announcement_id } = req.body;
+
+  if (!title || !message || !announcement_id) {
+    return res
+      .status(400)
+      .json({ error: "Title, message, and announcement ID are required" });
+  }
+
+  try {
+    await postAnnouncement(title, message, announcement_id);
+    return res.status(201).json({ success: true });
+  } catch (error) {
+    console.error("Error posting announcement:", error);
+    return res
+      .status(500)
+      .json({ error: "An error occurred while posting the announcement" });
+  }
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);

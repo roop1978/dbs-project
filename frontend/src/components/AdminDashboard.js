@@ -1,12 +1,15 @@
+// Frontend (React)
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
+
 const AdminDashboard = ({ adminDetails }) => {
   const [formDetails, setFormDetails] = useState({
     admin_id: "",
     name: "", // Changed from username to name to match the state update logic
-    menuImage: null,
   });
+
   const [announcementDetails, setAnnouncementDetails] = useState({
     title: "",
     message: "",
@@ -17,6 +20,21 @@ const AdminDashboard = ({ adminDetails }) => {
     title: "",
     event_id: "",
   });
+
+  useEffect(() => {
+    if (adminDetails) {
+      setFormDetails((prevState) => ({
+        ...prevState,
+        name: adminDetails.name,
+        admin_id: adminDetails.admin_id,
+      }));
+    }
+  }, [adminDetails]);
+
+  const handleAdminDetailsSubmit = (e) => {
+    e.preventDefault();
+    console.log(formDetails);
+  };
 
   const handleAnnouncementChange = (e) => {
     const { name, value } = e.target;
@@ -66,57 +84,27 @@ const AdminDashboard = ({ adminDetails }) => {
       console.error("Error posting community event:", error);
     }
   };
+  const [day, setDay] = useState("");
+  const [meal, setMeal] = useState("");
+  const [menuItems, setMenuItems] = useState("");
 
-  useEffect(() => {
-    if (adminDetails) {
-      setFormDetails((prevState) => ({
-        ...prevState,
-        name: adminDetails.name,
-        admin_id: adminDetails.admin_id,
-      }));
-    }
-  }, [adminDetails]);
-
-  const handleAdminDetailsSubmit = (e) => {
-    e.preventDefault();
-    console.log(formDetails);
-  };
-
-  const handleImageChange = (e) => {
-    setFormDetails({ ...formDetails, menuImage: e.target.files[0] });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (formData) => {
     try {
-      const formData = new FormData();
-      formData.append("admin_id", formDetails.admin_id); // Pass admin ID to the backend
-      formData.append("menuImage", formDetails.menuImage);
-
-      const response = await axios.post(
-        "http://localhost:4000/menu/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        alert("Menu image uploaded successfully!");
-      } else {
-        alert("Error uploading menu image. Please try again later.");
+      // Make an API call to submit the menu data
+      const response = await axios.post("http://localhost:4000/menu", formData);
+      if (response.status === 201) {
+        alert("Menu added successfully!");
+        // Optionally, you can fetch the updated menu data here
       }
     } catch (error) {
-      alert("Error uploading menu image. Please try again later.");
-      console.error("Error uploading menu image:", error);
+      alert("Error adding menu. Please try again later.");
+      console.error("Error adding menu:", error);
     }
   };
 
   return (
     <div className="admin-dashboard-container">
-      <h2 className="dashboard-title">Admin Dashboard</h2>
+      <h2>Admin Dashboard</h2>
       <form className="admin-details-form" onSubmit={handleAdminDetailsSubmit}>
         <div className="form-group">
           <label htmlFor="name">Name:</label> <br></br>
@@ -139,21 +127,7 @@ const AdminDashboard = ({ adminDetails }) => {
           />
         </div>
       </form>
-      <form className="menu-creation-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="menuImage">Menu Image:</label>
-          <input
-            type="file"
-            id="menuImage"
-            name="menuImage"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-        </div>
-        <button className="btn-create-menu" type="submit">
-          Create Menu
-        </button>
-      </form>
+
       <form className="announcement-form" onSubmit={handleAnnouncementSubmit}>
         <div className="form-group">
           <label htmlFor="title">Announcement Title:</label>
@@ -207,6 +181,36 @@ const AdminDashboard = ({ adminDetails }) => {
         <button className="btn-post-event" type="submit">
           Post Community Event
         </button>
+      </form>
+      <form className="menu-form" onSubmit={handleSubmit}>
+        <label>
+          Day:
+          <input
+            type="text"
+            value={day}
+            onChange={(e) => setDay(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Meal:
+          <input
+            type="text"
+            value={meal}
+            onChange={(e) => setMeal(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Menu Items:
+          <input
+            type="text"
+            value={menuItems}
+            onChange={(e) => setMenuItems(e.target.value)}
+            required
+          />
+        </label>
+        <button type="submit">Add Menu</button>
       </form>
     </div>
   );
