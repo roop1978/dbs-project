@@ -49,59 +49,58 @@ const StudentLogin = ({ goToMenu, toggleLogin }) => {
 
   return (
     <div className="login-container">
-      <img
-        src={logo}
-        alt="Logo"
-        className="login-logo"
-        style={{ width: "150px", height: "auto", marginBottom: "10px" }}
-      />
-      <h2>Student Login</h2>
+      <img src={logo} alt="Logo" className="login-logo" />
+
       {authenticated ? (
         studentDetails ? (
           <StudentDashboard studentDetails={studentDetails} />
         ) : (
-          <p>Loading student details...</p>
+          <p className="loading-message">Loading student details...</p>
         )
       ) : (
         <>
-          <form onSubmit={handleLogin}>
-            <div>
-              <label htmlFor="username">Username:</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <button type="submit" className="login-button">
-              Log In
-            </button>
-          </form>
-          {error && (
-            <p style={{ color: "red", marginTop: "10px", textAlign: "center" }}>
-              {error}
-            </p>
-          )}
+          <div className="student-login-container">
+            <form className="login-form" onSubmit={handleLogin}>
+              <div className="form-group">
+                <label htmlFor="username">Username:</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+              <div className="button-row">
+                <button type="submit" className="login-button">
+                  Log In
+                </button>
+                <button onClick={toggleLogin} className="toggle-login">
+                  Switch to Admin Login
+                </button>
+              </div>
+              <div className="menu-button-container">
+                <button onClick={goToMenu} className="menu-button">
+                  Go to Menu
+                </button>
+              </div>
+            </form>
+            {error && <p className="error-message">{error}</p>}
+          </div>
         </>
       )}
-      <button onClick={toggleLogin} className="toggle-login">
-        Switch to Admin Login
-      </button>
-      <button onClick={goToMenu} className="menu-button">
-        Go to Menu
-      </button>
     </div>
   );
 };

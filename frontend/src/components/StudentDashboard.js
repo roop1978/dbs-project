@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import "./StudentDashboard.css";
 const StudentDashboard = ({ studentDetails }) => {
   const [formDetails, setFormDetails] = useState({
     name: "",
@@ -68,148 +68,86 @@ const StudentDashboard = ({ studentDetails }) => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "600px",
-        margin: "auto",
-        padding: "20px",
-        backgroundColor: "#f9f9f9",
-        borderRadius: "10px",
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Student Dashboard
-      </h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Name:</label>
+    <div className="dashboard-container">
+      <h2 className="dashboard-title">Student Dashboard</h2>
+      <form className="dashboard-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Name:</label>
           <input
             type="text"
             name="name"
             value={formDetails.name}
             onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "80%",
-            }}
+            className="input-field"
           />
         </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Student ID:</label>
+        <div className="form-group">
+          <label className="form-label">Student ID:</label>
           <input
             type="text"
             name="id"
             value={formDetails.student_id}
             onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "80%",
-            }}
+            className="input-field"
           />
         </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>CGPA:</label>
+        <div className="form-group">
+          <label className="form-label">CGPA:</label> <br></br>
           <input
             type="text"
             name="cgpa"
             value={formDetails.cgpa}
             onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "80%",
-            }}
+            className="input-field"
           />
         </div>
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ fontWeight: "bold" }}>Remaining Balance:</label>
+        <div className="form-group">
+          <label className="form-label">Remaining Balance:</label>
           <input
             type="text"
             name="remainingBalance"
             value={formDetails.remaining_balance}
             onChange={handleChange}
-            style={{
-              marginLeft: "10px",
-              padding: "8px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-              width: "80%",
-            }}
+            className="input-field"
           />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "15px",
-          }}
-        >
-          {showFeedbackInput ? (
-            <div style={{ flex: 1 }}>
-              <input
-                type="text"
-                value={feedbackText}
-                onChange={(e) => setFeedbackText(e.target.value)}
-                placeholder="Type your feedback here..."
-                style={{
-                  width: "100%",
-                  padding: "8px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                  marginRight: "10px",
-                }}
-              />
-              <input
-                type="text"
-                value={feedbackId}
-                onChange={(e) => setFeedbackId(e.target.value)}
-                placeholder="Feedback ID"
-                style={{
-                  width: "100%",
-                  padding: "8px",
-                  borderRadius: "5px",
-                  border: "1px solid #ccc",
-                  marginRight: "10px",
-                }}
-              />
+        <div className="action-button-container">
+          <button onClick={handleAvailMeal} className="action-button">
+            Avail Meal
+          </button>
+          <div className="feedback-section">
+            {showFeedbackInput ? (
+              <div className="feedback-input-section">
+                <input
+                  type="text"
+                  value={feedbackText}
+                  onChange={(e) => setFeedbackText(e.target.value)}
+                  placeholder="Type your feedback here..."
+                  className="input-field"
+                />
+                <input
+                  type="text"
+                  value={feedbackId}
+                  onChange={(e) => setFeedbackId(e.target.value)}
+                  placeholder="Feedback ID"
+                  className="input-field"
+                />
+                <button
+                  onClick={handleSubmitFeedback}
+                  className="action-button"
+                >
+                  Submit Feedback
+                </button>
+              </div>
+            ) : (
               <button
-                onClick={handleSubmitFeedback}
-                style={{
-                  backgroundColor: "#008CBA",
-                  color: "white",
-                  padding: "8px 15px",
-                  border: "none",
-                  borderRadius: "5px",
-                  cursor: "pointer",
-                }}
+                onClick={handleFeedbackButtonClick}
+                className="action-button"
               >
-                Submit Feedback
+                Provide Feedback
               </button>
-            </div>
-          ) : (
-            <button
-              onClick={handleFeedbackButtonClick}
-              style={{
-                backgroundColor: "#4CAF50",
-                color: "white",
-                padding: "10px 20px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
-            >
-              Provide Feedback
-            </button>
-          )}
+            )}
+          </div>
         </div>
       </form>
     </div>

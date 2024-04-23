@@ -1,34 +1,77 @@
-/* StudentLogin.css */
 .login-container {
   max-width: 100%;
-  height: 100vh;
+  height: 100%;
   margin: 0 auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #6f98f2;
   background-image: url("../assets/dining-hall.jpg"); /* Replace 'path/to/your/image.jpg' with the actual path to your background image */
   background-size: cover;
   background-position: center;
 }
+.student-login-container {
+  width: 400px;
+  height: 400px;
+  margin: auto;
+  padding: 20px;
+  background-color: #b5c9f3;
+  border-radius: 10px;
+}
+
+.login-logo {
+  width: 150px;
+  height: 150px;
+  margin-left: 44%;
+}
+
+.login-title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007bff; /* blue color */
+}
+
+.login-form {
+  margin-bottom: 20px;
+}
 
 .form-group {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+.form-group label {
+  font-weight: bold;
+  margin-top: 30px;
+  color: black; /* Updated label color */
+}
+
+/* Input, file input, and textarea styling */
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group input[type="password"],
+.form-group textarea {
+  margin-left: 10px;
   margin-bottom: 10px;
-}
-
-input[type="text"],
-input[type="password"] {
-  width: 100%;
+  margin-top: 10px;
   padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 80%;
+  background-color: #fff; /* Updated input background color */
+  color: #000; /* Updated input text color */
 }
 
-.login-button {
+.login-button,
+.toggle-login,
+.menu-button {
   display: block;
-  width: 100%;
+  width: 40%;
+  height: 30%;
   padding: 10px;
+  margin-top: 15px;
+  margin-left: 10px;
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -36,7 +79,9 @@ input[type="password"] {
   cursor: pointer;
 }
 
-.login-button:hover {
+.login-button:hover,
+.toggle-login:hover,
+.menu-button:hover {
   background-color: #0056b3;
 }
 
@@ -45,6 +90,26 @@ input[type="password"] {
   font-size: 14px;
   margin-bottom: 10px;
 }
-h2{
-  color: white;
+
+h2 {
+  color: black;
+  margin-left: 5px;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* Add this to your existing CSS file */
+.button-row {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.menu-button-container {
+  text-align: center;
+  margin-left: 140px;
 }
