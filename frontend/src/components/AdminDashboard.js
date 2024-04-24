@@ -3,13 +3,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
-
+import FeedbackList from "./FeedbackList";
 const AdminDashboard = ({ adminDetails }) => {
   const [formDetails, setFormDetails] = useState({
     admin_id: "",
     name: "", // Changed from username to name to match the state update logic
   });
+  const [showFeedback, setShowFeedback] = useState(false);
 
+  const handleViewFeedback = () => {
+    setShowFeedback(true);
+  };
   const [announcementDetails, setAnnouncementDetails] = useState({
     title: "",
     message: "",
@@ -282,9 +286,21 @@ const AdminDashboard = ({ adminDetails }) => {
             onChange={handleChange}
           />
         </div>
-        <button className="menu-submit-btn" type="submit">
+        <button
+          className="menu-submit-btn"
+          type="button"
+          onClick={handleSubmit}
+        >
           Add Menu
         </button>
+        <button
+          className="feedback-btn"
+          onClick={handleViewFeedback}
+          type="submit"
+        >
+          View Feedbacks
+        </button>
+        {showFeedback && <FeedbackList />}
       </form>
     </div>
   );

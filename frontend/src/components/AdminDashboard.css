@@ -47,7 +47,8 @@
 .btn-create-menu,
 .btn-post-announcement,
 .btn-post-event,
-.menu-submit-btn {
+.menu-submit-btn,
+.feedback-btn {
   background-color: #008cba;
   color: white;
   padding: 10px 20px;
@@ -58,11 +59,13 @@
   width: 50%;
   height: 40%;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 .btn-create-menu:hover,
 .btn-post-announcement:hover,
 .btn-post-event:hover,
-.menu-submit-btn:hover {
+.menu-submit-btn:hover,
+.feedback-btn:hover {
   background-color: #007aa8;
 }
 
@@ -70,7 +73,8 @@
 .btn-create-menu:active,
 .btn-post-announcement:active,
 .btn-post-event:active,
-.menu-submit-btn:active {
+.menu-submit-btn:active,
+.feedback-btn:active {
   background-color: #005e82;
 }
 h2 {
