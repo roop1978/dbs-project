@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
+import Menu from "./Menu";
+
 const LandingPage = () => {
+  const navigate = useNavigate();
+
+  const handleStudentLogin = () => {
+    navigate("/student-login");
+  };
+
+  const handleAdminLogin = () => {
+    navigate("/admin-login");
+  };
+
   const [announcements, setAnnouncements] = useState([]);
   const [communityEvents, setCommunityEvents] = useState([]);
 
@@ -29,6 +43,14 @@ const LandingPage = () => {
 
   return (
     <div className="landing-page">
+      <div className="landing-buttons">
+        <button className="login-button" onClick={handleStudentLogin}>
+          Student Login
+        </button>
+        <button className="login-button" onClick={handleAdminLogin}>
+          Admin Login
+        </button>
+      </div>
       <div className="tab-container">
         {/* Announcements Tab */}
         <div className="tab-wrapper">

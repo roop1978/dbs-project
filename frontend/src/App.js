@@ -5,6 +5,7 @@ import StudentLogin from "./components/StudentLogin";
 import AdminLogin from "./components/AdminLogin";
 import CommunityEventsPage from "./components/CommunityEvents";
 import LandingPage from "./components/LandingPage";
+import Menu from "./components/Menu";
 function App() {
   const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ function App() {
     {
       path: "/landing-page",
       element: <LandingPage />,
+    },
+    {
+      path: "/menu",
+      element: <Menu />,
     },
   ]);
   return <RouterProvider router={router} />;

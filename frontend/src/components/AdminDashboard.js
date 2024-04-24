@@ -20,6 +20,44 @@ const AdminDashboard = ({ adminDetails }) => {
     title: "",
     event_id: "",
   });
+  const [formData, setFormData] = useState({
+    menu_id: "",
+    mealType: "",
+    price: "",
+    item_name_1: "",
+    item_name_2: "",
+    item_name_3: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:4000/menu", formData);
+      if (response.status === 201) {
+        alert("Menu added successfully!");
+        // Optionally, you can reset the form here
+        setFormData({
+          menu_id: "",
+          mealType: "",
+          price: "",
+          item_name_1: "",
+          item_name_2: "",
+          item_name_3: "",
+        });
+      }
+    } catch (error) {
+      alert("Error adding menu. Please try again later.");
+      console.error("Error adding menu:", error);
+    }
+  };
 
   useEffect(() => {
     if (adminDetails) {
@@ -84,23 +122,6 @@ const AdminDashboard = ({ adminDetails }) => {
       console.error("Error posting community event:", error);
     }
   };
-  const [day, setDay] = useState("");
-  const [meal, setMeal] = useState("");
-  const [menuItems, setMenuItems] = useState("");
-
-  const handleSubmit = async (formData) => {
-    try {
-      // Make an API call to submit the menu data
-      const response = await axios.post("http://localhost:4000/menu", formData);
-      if (response.status === 201) {
-        alert("Menu added successfully!");
-        // Optionally, you can fetch the updated menu data here
-      }
-    } catch (error) {
-      alert("Error adding menu. Please try again later.");
-      console.error("Error adding menu:", error);
-    }
-  };
 
   return (
     <div className="admin-dashboard-container">
@@ -127,7 +148,6 @@ const AdminDashboard = ({ adminDetails }) => {
           />
         </div>
       </form>
-
       <form className="announcement-form" onSubmit={handleAnnouncementSubmit}>
         <div className="form-group">
           <label htmlFor="title">Announcement Title:</label>
@@ -182,35 +202,89 @@ const AdminDashboard = ({ adminDetails }) => {
           Post Community Event
         </button>
       </form>
+
       <form className="menu-form" onSubmit={handleSubmit}>
-        <label>
-          Day:
+        <div>
+          <label className="menu-label" htmlFor="menu_id">
+            Menu ID:
+          </label>
           <input
+            className="menu-input"
             type="text"
-            value={day}
-            onChange={(e) => setDay(e.target.value)}
-            required
+            id="menu_id"
+            name="menu_id"
+            value={formData.menu_id}
+            onChange={handleChange}
           />
-        </label>
-        <label>
-          Meal:
+        </div>
+        <div>
+          <label className="menu-label" htmlFor="mealType">
+            Meal Type:
+          </label>
           <input
+            className="menu-input"
             type="text"
-            value={meal}
-            onChange={(e) => setMeal(e.target.value)}
-            required
+            id="mealType"
+            name="mealType"
+            value={formData.mealType}
+            onChange={handleChange}
           />
-        </label>
-        <label>
-          Menu Items:
+        </div>
+        <div>
+          <label className="menu-label" htmlFor="price">
+            Price:
+          </label>
           <input
+            className="menu-input"
             type="text"
-            value={menuItems}
-            onChange={(e) => setMenuItems(e.target.value)}
-            required
+            id="price"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
           />
-        </label>
-        <button type="submit">Add Menu</button>
+        </div>
+        <div>
+          <label className="menu-label" htmlFor="item_name_1">
+            Item 1:
+          </label>
+          <input
+            className="menu-input"
+            type="text"
+            id="item_name_1"
+            name="item_name_1"
+            value={formData.item_name_1}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label className="menu-label" htmlFor="item_name_2">
+            Item 2:
+          </label>
+          <input
+            className="menu-input"
+            type="text"
+            id="item_name_2"
+            name="item_name_2"
+            value={formData.item_name_2}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label className="menu-label" htmlFor="item_name_3">
+            Item 3:
+          </label>
+          <input
+            className="menu-input"
+            type="text"
+            id="item_name_3"
+            name="item_name_3"
+            value={formData.item_name_3}
+            onChange={handleChange}
+          />
+        </div>
+        <button className="menu-submit-btn" type="submit">
+          Add Menu
+        </button>
       </form>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./StudentDashboard.css";
 const StudentDashboard = ({ studentDetails }) => {
@@ -66,7 +67,12 @@ const StudentDashboard = ({ studentDetails }) => {
       console.error("Error submitting feedback:", error);
     }
   };
+  const navigate = useNavigate();
 
+  const handleSeeMenuClick = () => {
+    // Redirect to the Menu component
+    navigate("/menu");
+  };
   return (
     <div className="dashboard-container">
       <h2 className="dashboard-title">Student Dashboard</h2>
@@ -147,6 +153,9 @@ const StudentDashboard = ({ studentDetails }) => {
                 Provide Feedback
               </button>
             )}
+            <button className="action-button" onClick={handleSeeMenuClick}>
+              SEE MENU
+            </button>
           </div>
         </div>
       </form>

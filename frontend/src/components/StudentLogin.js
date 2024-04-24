@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import logo from "../assets/logo.png"; // Verify this path is correct for your project setup
 import authService from "../services/authServices";
 import StudentDashboard from "./StudentDashboard";
+import { useNavigate } from "react-router-dom";
 import "./StudentLogin.css";
 const StudentLogin = ({ goToMenu, toggleLogin }) => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [studentDetails, setStudentDetails] = useState(null);
-
+  const handleAdminLogin = () => {
+    navigate("/admin-login");
+  };
   useEffect(() => {
     if (authenticated) {
       fetchStudentDetails();
@@ -87,15 +91,11 @@ const StudentLogin = ({ goToMenu, toggleLogin }) => {
                 <button type="submit" className="login-button">
                   Log In
                 </button>
-                <button onClick={toggleLogin} className="toggle-login">
+                <button onClick={handleAdminLogin} className="toggle-login">
                   Switch to Admin Login
                 </button>
               </div>
-              <div className="menu-button-container">
-                <button onClick={goToMenu} className="menu-button">
-                  Go to Menu
-                </button>
-              </div>
+              <div className="menu-button-container"></div>
             </form>
             {error && <p className="error-message">{error}</p>}
           </div>

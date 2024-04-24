@@ -9,8 +9,7 @@ import {
   fetchStudentDetails,
   getAdminDetails,
   getRemainingBalanceForStudents,
-  getMenuForCurrentWeek,
-  createMenuForNewWeek,
+
   deductBalance,
   weeklyBalanceDeduction,
   processTransaction,
@@ -21,6 +20,8 @@ import {
   getLatestMenuImage,
   getCommunityEvents,
   postCommunityEvent,
+  fetchMenu,
+  postMenu,
 } from "./database/database.js";
 const app = express();
 const port = 4000;
@@ -176,20 +177,6 @@ app.get("/feedback", async (req, res) => {
   }
 });
 
-app.post("/menu/create", (req, res) => {
-  const { meal, day, items } = req.body;
-  const query = "INSERT INTO menu (meal, day, items) VALUES (?, ?, ?)";
-  pool.query(query, [meal, day, items], (error, results) => {
-    if (error) {
-      console.error("Error creating menu:", error);
-      res.status(500).json({ error: "Error creating menu" });
-    } else {
-      res.json({ message: "Menu created successfully" });
-    }
-  });
-});
-
-
 // Endpoint to get community events
 app.get("/community", async (req, res) => {
   try {
@@ -254,6 +241,54 @@ app.post("/announcements", async (req, res) => {
       .json({ error: "An error occurred while posting the announcement" });
   }
 });
+app.get("/menu", async (req, res) => {
+  try {
+    const menu = await fetchMenu();
+    res.json(menu);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch menu" });
+  }
+});
+
+app.post("/menu", async (req, res) => {
+  const { menu_id, mealType, price, item_name_1, item_name_2, item_name_3 } =
+    req.body;
+
+  // Validate request body
+  if (
+    !menu_id ||
+    !mealType ||
+    !price ||
+    !item_name_1 ||
+    !item_name_2 ||
+    !item_name_3
+  ) {
+    return res.status(400).json({ error: "Invalid request body" });
+  }
+
+  try {
+    // Insert menu into the database
+    const newmenu_id = await postMenu(
+      menu_id,
+      mealType,
+      price,
+      item_name_1,
+      item_name_2,
+      item_name_3
+    );
+
+    // Send success response
+    res.status(201).json({
+      message: "Menu posted successfully",
+      menu_id: newmenu_id,
+    });
+  } catch (error) {
+    // Handle database or other errors
+    console.error("Error posting menu:", error);
+    res.status(500).json({ error: "Failed to post menu" });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);

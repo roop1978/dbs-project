@@ -38,12 +38,8 @@
   cursor: pointer;
   width: 90%;
   height: 40%;
+  margin-top: 20px;
 }
-/* .action-button-container{
-     display: flex;
-  justify-content: space-around;
-  margin-bottom: 10px;
-} */
 
 .feedback-section {
   margin-top: 15px;

@@ -86,34 +86,6 @@ async function getRemainingBalanceForStudents() {
   }
 }
 
-async function createMenuForNewWeek(mealType, price, itemNames) {
-  try {
-    const [result] = await pool.execute(
-      "INSERT INTO menu (meal_type, price, item_name_1, item_name_2, item_name_3) VALUES (?, ?, ?, ?, ?)",
-      [mealType, price, itemNames[0], itemNames[1], itemNames[2]]
-    );
-    return result.insertId;
-  } catch (error) {
-    console.error("Error creating menu:", error);
-    throw error;
-  }
-}
-
-async function getMenuForCurrentWeek() {
-  try {
-    const [rows] = await pool.execute(`
-      SELECT * FROM menu
-      WHERE WEEK(menu_date) = WEEK(CURRENT_DATE())
-      ORDER BY menu_id DESC
-      LIMIT 1
-    `);
-    return rows;
-  } catch (error) {
-    console.error("Error fetching menu for current week:", error);
-    throw error;
-  }
-}
-
 async function deductBalance(userId, amount) {
   try {
     const [userData] = await pool.execute(
@@ -190,7 +162,6 @@ async function getAnnouncements() {
     throw error;
   }
 }
-
 
 async function postAnnouncement(title, message, announcement_id) {
   try {
@@ -281,7 +252,6 @@ async function getCommunityEvents() {
   }
 }
 
-
 async function postCommunityEvent(event_id, title) {
   try {
     await pool.execute(
@@ -294,6 +264,38 @@ async function postCommunityEvent(event_id, title) {
     throw error;
   }
 }
+async function fetchMenu() {
+  try {
+    const [rows] = await pool.execute("SELECT * FROM menu");
+    return rows;
+  } catch (error) {
+    console.error("Error fetching menu:", error);
+    throw error;
+  }
+}
+async function postMenu(
+  menu_id,
+  mealType,
+  price,
+  item_name_1,
+  item_name_2,
+  item_name_3
+) {
+  try {
+    // Execute SQL query to insert menu into the database
+    const [result] = await pool.execute(
+      "INSERT INTO menu (menu_id, meal_type, price, item_name_1, item_name_2, item_name_3) VALUES (?, ?, ?, ?, ?, ?)",
+      [menu_id, mealType, price, item_name_1, item_name_2, item_name_3]
+    );
+
+    // Return the ID of the newly inserted menu
+    return result.insertId;
+  } catch (error) {
+    // Handle database errors
+    console.error("Error posting menu:", error);
+    throw error;
+  }
+}
 
 export {
   authenticateStudent,
@@ -301,8 +303,7 @@ export {
   fetchStudentDetails,
   getAdminDetails,
   getRemainingBalanceForStudents,
-  getMenuForCurrentWeek,
-  createMenuForNewWeek,
+  
   deductBalance,
   weeklyBalanceDeduction,
   processTransaction,
@@ -314,4 +315,6 @@ export {
   getCommunityEvents,
   postCommunityEvent,
   getFeedback,
+  fetchMenu,
+  postMenu,
 };

@@ -37,28 +37,7 @@
   }
 }
 /* Login Container */
-.login-container {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  max-width: 575px; /* Increased width */
-  width: 100%; /* Adjust based on preference, ensures responsiveness */
-  margin: auto; /* Centers the container on the page */
-  background-image: url("./assets/dining-hall.jpg"); /* Replace 'path/to/your/image.jpg' with the actual path to your background image */
-  background-size: cover;
-  background-position: center;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.5
-  ); /* Change the alpha value (0.5) to adjust opacity */
-}
+
 
 /* Login and Menu Buttons */
 .login-button,
