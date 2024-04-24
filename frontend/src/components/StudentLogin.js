@@ -91,7 +91,7 @@ const StudentLogin = ({ goToMenu, toggleLogin }) => {
                 <button type="submit" className="login-button">
                   Log In
                 </button>
-                <button onClick={handleAdminLogin} className="toggle-login">
+                <button onClick={handleAdminLogin} className="login-button">
                   Switch to Admin Login
                 </button>
               </div>
